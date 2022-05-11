@@ -1,0 +1,1674 @@
+{
+	"info": {
+		"_postman_id": "9d9f9e19-4b2b-4c76-99c9-001bb1eb4090",
+		"name": "Test  AgentApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "current_user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/users/current_user",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"users",
+								"current_user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/users/obtain-token",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"users",
+								"obtain-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Creation objects",
+			"item": [
+				{
+					"name": "Driver creation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let driverCreation = JSON.parse(responseBody);",
+									"let temp = driverCreation.id",
+									"pm.globals.set(\"driverId\", temp)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"user-agent": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"first_name\": \"Иван\",\n  \"last_name\": \"Смирнов\",\n  \"patronymic\": \"Петрович\",\n  \"birth_date\": \"1990-01-01\",\n  \"driving_experience_started\": \"2010-10-10\",\n  \"driver_licenses\": [\n    {\n      \"credential_type\": \"DRIVER_LICENSE\",\n      \"number\": \"012345\",\n      \"series\": \"1234\",\n      \"issue_date\": \"2010-10-10\"\n    }\n  ]\n\n\n}\n"
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/drivers",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"insured_objects",
+								"drivers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Owner creation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let ownerCreation = JSON.parse(responseBody);",
+									"let temp = ownerCreation.person",
+									"pm.globals.set(\"ownerId\", temp)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"last_name\": \"Смирнов\",\n  \"first_name\": \"Иван\",\n  \"patronymic\": \"Петрович\",\n  \"birth_date\": \"1990-01-01\",\n  \"credential\": [\n    {\n      \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\n      \"issue_date\": \"2017-03-08\",\n      \"issue_point\": \"УФМС\",\n      \"issue_point_code\": \"123-456\",\n      \"number\": \"123456\",\n      \"series\": \"1234\"\n    }\n  ],\n  \"address\": [\n    {\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\n      \"address_type\": \"LEGAL_ADDRESS\",\n      \"region_kladr_id\": \"7800000000000\",\n      \"city_kladr_id\": \"7800000600000\"\n    },\n    {\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\n      \"address_type\": \"ACTUAL_ADDRESS\",\n      \"region_kladr_id\": \"7800000000000\",\n      \"city_kladr_id\": \"7800000600000\"\n    }\n  ]\n}\n"
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/v1/insured_objects/owners/natural_persons",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"insured_objects",
+								"owners",
+								"natural_persons"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Сreation of an insurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let insurantCreation = JSON.parse(responseBody);",
+									"let temp = insurantCreation.person",
+									"pm.globals.set(\"insurantId\", temp)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"last_name\": \"Смирнов\",\n  \"first_name\": \"Иван\",\n  \"patronymic\": \"Петрович\",\n  \"birth_date\": \"1990-01-01\",\n  \"credential\": [\n    {\n      \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\n      \"issue_date\": \"2010-10-10\",\n      \"issue_point\": \"УФМС\",\n      \"issue_point_code\": \"123-456\",\n      \"number\": \"123456\",\n      \"series\": \"1234\"\n    }\n  ],\n  \"address\": [\n    {\n      \"address_query\": \"гг Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\n      \"address_type\": \"LEGAL_ADDRESS\",\n      \"region_kladr_id\": \"7800000000000\",\n      \"city_kladr_id\": \"7800000600000\"\n    },\n    {\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\n      \"address_type\": \"ACTUAL_ADDRESS\",\n      \"region_kladr_id\": \"7800000000000\",\n      \"city_kladr_id\": \"7800000600000\"\n    }\n  ],\n  \"contact\": [\n    {\n      \"contact_type\": \"EMAIL\",\n      \"data\": \"test@yandex.ru\",\n      \"comment\": null\n    },\n    {\n      \"contact_type\": \"PHONE\",\n      \"data\": \"+7 (999) 333-33-33\",\n      \"comment\": null\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/insurants/natural_persons",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"insured_objects",
+								"insurants",
+								"natural_persons"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Car creation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let carCreation = JSON.parse(responseBody);",
+									"let temp = carCreation.id",
+									"pm.globals.set(\"carId\", temp)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"car_model_id\": 864026180,\n  \"engine_power\": 211,\n  \"vin_number\": \"WAUZZZ8T4BA037241\",\n  \"number_plate\": \"Р904МХ178\",\n  \"manufacturing_year\": 2010,\n  \"max_mass\": null,\n  \"credential\": [\n    {\n      \"credential_type\": \"VEHICLE_REGISTRATION\",\n      \"issue_date\": \"2010-11-01\",\n      \"number\": \"267461\",\n      \"series\": \"78УН\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/v3/insured_objects/cars",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"insured_objects",
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update insurant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"credential\": [\n    {\n      \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\n      \"issue_date\": \"2010-10-10\",\n      \"issue_point\": \"УФМС\",\n      \"issue_point_code\": \"123-456\",\n      \"number\": \"123456\",\n      \"series\": \"1234\"\n    }\n  ],\n  \"address\": [\n    {\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\n      \"address_type\": \"LEGAL_ADDRESS\",\n      \"region_kladr_id\": \"7800000000000\",\n      \"city_kladr_id\": \"7800000600000\"\n    },\n    {\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\n      \"address_type\": \"ACTUAL_ADDRESS\",\n      \"region_kladr_id\": \"7800000000000\",\n      \"city_kladr_id\": \"7800000600000\"\n    }\n  ],\n  \"contact\": [\n    {\n      \"contact_type\": \"EMAIL\",\n      \"data\": \"test@yandex.ru\",\n      \"comment\": null\n    },\n    {\n      \"contact_type\": \"PHONE\",\n      \"data\": \"+7 (999) 333-33-33\",\n      \"comment\": null\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/insurants/{{insurantId}}",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"insured_objects",
+								"insurants",
+								"{{insurantId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update owner",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n  \"credential\": [\n    {\n      \"credential_type\": \"RUSSIAN_INTERNAL_PASSPORT\",\n      \"issue_date\": \"2010-10-10\",\n      \"issue_point\": \"УФМС\",\n      \"issue_point_code\": \"123-456\",\n      \"number\": \"123456\",\n      \"series\": \"1234\"\n    }\n  ],\n  \"address\": [\n    {\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\n      \"address_type\": \"LEGAL_ADDRESS\",\n      \"region_kladr_id\": \"7700000000000\",\n      \"city_kladr_id\": \"7700000600000\"\n    },\n    {\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\n      \"address_type\": \"ACTUAL_ADDRESS\",\n      \"region_kladr_id\": \"7700000000000\",\n      \"city_kladr_id\": \"7700000600000\"\n    }\n  ],\n  \"contact\": [\n    {\n      \"contact_type\": \"EMAIL\",\n      \"data\": \"test@yandex.ru\",\n      \"comment\": null\n    },\n    {\n      \"contact_type\": \"PHONE\",\n      \"data\": \"+7 (999) 333-33-33 \",\n      \"comment\": null\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/v1/insured_objects/owners/{{ownerId}}",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"insured_objects",
+								"owners",
+								"{{ownerId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Association of objects and subjects",
+			"item": [
+				{
+					"name": "Insurance object",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let objects = JSON.parse(responseBody);",
+									"let temp = objects.id",
+									"pm.globals.set(\"insured_object\", temp)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"drivers\": [\n    \"{{driverId}}\"\n  ],\n  \"owner\": \"{{ownerId}}\",\n  \"car\": \"{{carId}}\",\n  \"insurant\": \"{{insurantId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/insured_objects/",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"insured_objects",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Agreements",
+			"item": [
+				{
+					"name": "Create agreement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let agreement = JSON.parse(responseBody);",
+									"let temp = agreement.id",
+									"pm.globals.set(\"agreement_id\", temp)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"valid_from\": \"2022-05-8\",\n    \"valid_to\": \"2023-05-07\",\n    \"insurance_period\": 8,\n    \"target_of_using\": 11,\n    \"drivers_ids\": [\"{{driverId}}\"],\n    \"is_car_without_registration\": false,\n    \"engine_power\": 211,\n    \"has_car_trailer\": false,\n    \"car_type\": \"B\",\n    \"owner_registration\": {\n      \"address_query\": \"г Санкт-Петербург, г Ломоносов, ул Швейцарская, д 1 к 1, кв 1\",\n      \"address_type\": \"LEGAL_ADDRESS\",\n      \"region_kladr_id\": \"7800000000000\",\n      \"city_kladr_id\": \"7800000600000\"},\n      \"periods\" : []\n    \n    \n}"
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/v3/agreements/calculations",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v3",
+								"agreements",
+								"calculations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update agreement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let agreement = JSON.parse(responseBody);",
+									"let temp = agreement.id",
+									"pm.globals.set(\"agreement_id\", temp)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"insured_object\": \"{{insured_object}}\"\n}"
+						},
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/v1/agreements/{{agreement_id}}",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"v1",
+								"agreements",
+								"{{agreement_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Insurance companies",
+			"item": [
+				{
+					"name": "RENAISSANCE (MAIN)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token  {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/RENAISSANCE",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"RENAISSANCE"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ZETTA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "TOKEN {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/ZETTA",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"ZETTA"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ALPHA_STRAH",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/ALPHA_STRAH",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"ALPHA_STRAH"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SDS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/SDS?",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"SDS"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RGS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/RGS",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"RGS"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SNG",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/SNG",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"SNG"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UGORIA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/UGORIA",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"UGORIA"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NGOSSTRAH",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/NGOSSTRAH",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"NGOSSTRAH"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ABSOLUT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/ABSOLUT",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"ABSOLUT"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ASTRO_VOLGA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/ASTRO_VOLGA",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"ASTRO_VOLGA"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BSOINSUR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/BSOINSUR?",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"BSOINSUR"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VERNA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/VERNA",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"VERNA"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VSK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/VSK",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"VSK"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GUIDE",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/GUIDE",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"GUIDE"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GELIOS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/GELIOS",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"GELIOS"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MAKS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/MAKS",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"MAKS"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ALL_APPROVED",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/ALL_APPROVED",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"ALL_APPROVED"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CARDIF",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/CARDIF",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"CARDIF"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SBER_STRAH",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/SBER_STRAH",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"SBER_STRAH"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OSK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/OSK",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"OSK"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RESO",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "LIBERTY",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/LEBERTY",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"LEBERTY"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SOGAZ",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/SOGAZ",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"SOGAZ"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SOGLASIE",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/SOGLASIE",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"SOGLASIE"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TEST_COMPANY",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/TEST_COMAPANY",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"TEST_COMAPANY"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TINKOFF",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/TINKOFF",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"TINKOFF"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ENERGOGARANT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/results/ENERGOGARANT",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"results",
+								"ENERGOGARANT"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Information",
+			"item": [
+				{
+					"name": "Target of using",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/dicts/target_of_using",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"dicts",
+								"target_of_using"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insurance period",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/dicts/insurance_period",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"dicts",
+								"insurance_period"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Car types",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/dicts/car_types",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"dicts",
+								"car_types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List of companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/companies",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "agreements info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements/{{agreement_id}}/full",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements",
+								"{{agreement_id}}",
+								"full"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Archives",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "token {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{http_schema}}://{{host}}/{{api_version}}/agreements",
+							"protocol": "{{http_schema}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"{{api_version}}",
+								"agreements"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "api_version",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "http_schema",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
