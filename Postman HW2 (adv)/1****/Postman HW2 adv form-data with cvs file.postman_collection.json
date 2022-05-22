@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "4224d516-6293-4345-bdde-1b23be9ad78a",
+		"name": "Postman HW2 adv form-data with cvs file",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19836051"
+	},
+	"item": [
+		{
+			"name": "user_info_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1) Name: 3-40 символов включительно, запрещены префиксные и постфиксные пробелы. Поле обязательное",
+							"// 2) Age: только целые цифры в диапазоне 18-120 включительно. Поле обязательное",
+							"// 3) Salary: только целые цифры в диапазоне 1-1000000 включительно. Поле обязательное",
+							"function nameValidation(value) {",
+							"    if (value && value.lenght > 2 && value.lenght < 41 && value.trim() == value){",
+							"        return true ",
+							"    }else return false ",
+							"}",
+							"",
+							"function ageValidation(value) {",
+							"    if (value && !IsNan(value) && value > 17 && value < 121 && Number.isInteger(+value)) {",
+							"        return true ",
+							"    } else return false ",
+							"}",
+							"",
+							"function salaryValidation(value) {",
+							"    if (value && !IsNan(value) && value > 0 && value < 1000001 && Number.isInteger(+value)) {",
+							"        return true ",
+							"    } else return false",
+							"}",
+							"",
+							"function validator () {",
+							"    return nameValidation(name) && ageValidation(age) && salaryValidation(salary) ? true : false ",
+							"}",
+							"let name = pm.iterationData.get('name')",
+							"let age = pm.iterationData.get(\"age\")",
+							"let salary = pm.iterationData.get(\"salary\")",
+							"",
+							"if (validator()) {",
+							"    pm.test('Expect stratus code 2000 with name= \"${name}\", age = \"${age}, salary = \"${salary}\"', ()=> pm.response.to.have.status(200))",
+							"    } else {",
+							"        pm.test('Expect not to have satatus 200 with name = \"${name}\", age = \"${age}\", salary = \"${saloary}\"', ()=> pm.response.to.not.have.status(200))",
+							"    }",
+							"    console.log(validator())",
+							"    ",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_2",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
