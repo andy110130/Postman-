@@ -548,12 +548,82 @@
 							"const count = ['',3.3, 2.7, 3.8, 2, 1]",
 							"",
 							"",
-							"arr.forEach((e)=> {",
+							"arr.forEach((e, i)=> {",
 							"    if (e != 'person')",
 							"    pm.test(`response has a ${e}`, function (){",
 							"        pm.expect(+resp[e]).to.equal(500*count[i])",
 							"    })",
 							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/user_info_2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_Info_2_4***",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let arr = []",
+							"const resp = pm.response.json()",
+							"const salary = 500",
+							"",
+							"const counters = {",
+							"    \"person\": \"\", ",
+							"    \"start_qa_salary\": 1, ",
+							"    \"qa_salary_after_6_months\": 2, ",
+							"    \"qa_salary_after_12_months\": 2.7, ",
+							"    \"qa_salary_after_1.5_year\": 3.3, ",
+							"    \"qa_salary_after_3.5_years\": 3.8",
+							"}",
+							"for(const key in counters){",
+							"    pm.test(`response has ${key}`, ()=> {",
+							"        pm.expect(resp).to.have.property(key)",
+							"    })",
+							"    if(key != \"person\"){",
+							"        pm.test(`${key} = ${salary} * ${counters[key]}`, ()=> {",
+							"            pm.expect(resp[key]).to.eql(counters[key]* salary)",
+							"        })",
+							"    }",
+							"}",
 							""
 						],
 						"type": "text/javascript"
